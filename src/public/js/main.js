@@ -39,7 +39,7 @@ $(function (){
     });
 
     socket.on('new message', function (data) {
-        $chat.append(data + '<br/>');
+        $chat.append('<b>' + data.nick + '</b>: ' + data.msg + '<br/>');
     });
 
     socket.on('userNames', data =>{

@@ -16,11 +16,15 @@ module.exports = function (io) {
                 cb(true);
                 socket.nickName = data;
                 nickNames.push(socket.nickName);
-                updateNickNames();            }
+                updateNickNames();
+            }
         });
 
-        socket.on('send message', function (data){
-            io.sockets.emit('new message', data); // emit to all sockets
+        socket.on('send message', data => {
+            io.sockets.emit('new message', {// emit to all sockets
+                msg: data,
+                nick: socket.nickName
+            }); 
         });
 
         socket.on('disconnect', data => {
