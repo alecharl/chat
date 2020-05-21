@@ -8,6 +8,10 @@ body {
     display:none;
 }
 
+#primaryNav{
+    font-size: x-large;
+    font: bolder;
+}
 .error {
     color:red;
 }
@@ -19,4 +23,10 @@ body {
 
 .loaded-msgs {
     font-style: italic;
+}
+
+.page-footer{
+    position: absolute;
+    width: 100%;
+    bottom:0;
 }
