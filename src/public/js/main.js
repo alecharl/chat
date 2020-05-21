@@ -20,6 +20,7 @@ $(function (){
        socket.emit('new user', $nickName.val(), data => {
            if (data) {
                $('#nickWrap').hide();
+               $('#footer').hide();
                $('#contentWrap').show();
                $actualUser.append($nickName.val());//
 
