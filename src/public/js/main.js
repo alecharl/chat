@@ -11,6 +11,7 @@ $(function (){
     const $nickForm = $('#nickForm');
     const $nickError = $('#nickError');
     const $nickName = $('#nickName');
+    const $actualUser = $('#actualUser');
 
     const $users = $('#usernames');
     
@@ -20,6 +21,8 @@ $(function (){
            if (data) {
                $('#nickWrap').hide();
                $('#contentWrap').show();
+               $actualUser.append($nickName.val());//
+
            } else {
                $nickError.html(`
                <div class = "alert alert-danger">
@@ -34,11 +37,13 @@ $(function (){
     $messageForm.submit( e=> {
         e.preventDefault(); // stop default form action
         //console.log($messageBox.val());
-        socket.emit('send message', $messageBox.val()); // uses socket to send message
+        socket.emit('send message', $messageBox.val(), data => {
+            $chat.append(`<p class ="error">${data} </p>`)
+        }); // uses socket to send message
         $messageBox.val('');
     });
 
-    socket.on('new message', function (data) {
+    socket.on('new message', data => {
         $chat.append('<b>' + data.nick + '</b>: ' + data.msg + '<br/>');
     });
 
@@ -50,4 +55,18 @@ $(function (){
         $users.html(html);
     })
 
-});
+    socket.on("whisper", data => {
+        displayMsg(data);
+    })
+
+    socket.on('load old msgs', msgs => {
+        for (let i = 0; i < msgs.length; i++){
+            displayMsg(msgs[i]);
+        }
+    })
+
+    function displayMsg(data){
+        $chat.append(`<p class="loaded-msgs"><b> ${data.nick}: </b> ${data.msg}</p>`);
+
+    }
+}); 

@@ -1,41 +1,73 @@
 //server socket connection
-module.exports = function (io) {
+const Chat = require('./models/Chat');
 
-   let nickNames = [];
+module.exports = function (io) {
+   
+    let users = {};
     
 
-    io.on('connection', socket => {
+    io.on('connection', async socket => {
         console.log('new user connected');
         
+       let messages = await Chat.find({}).limit(6);
+       socket.emit('load old msgs', messages);
+
         socket.on('new user', (data, cb) =>{
             console.log(data);
             
-            if (nickNames.indexOf(data) != -1) {
+            if (data in users) {
                 cb(false);
             } else {
                 cb(true);
                 socket.nickName = data;
-                nickNames.push(socket.nickName);
+                users[socket.nickName] = socket;
                 updateNickNames();
             }
         });
+        // emit to all sockets
+        socket.on('send message', async (data, cb) => {
 
-        socket.on('send message', data => {
-            io.sockets.emit('new message', {// emit to all sockets
+            var msg = data.trim();
+
+            if(msg.substr(0,3) === '/w '){
+                msg = msg.substr(3); //return substring from index 3 to end
+                const index = msg.indexOf(' ');
+                if(index !== -1){
+                    var name = msg.substring(0, index);
+                    var msg = msg.substring(index + 1);
+                    if (name in users) {
+                        users[name].emit('whisper', {
+                            msg : msg,
+                            nick : socket.nickName
+                        });
+                    } else {
+                        cb('Error! Please enter a Valid User');
+                    }
+                } else {
+                    cb('Error! Please enter your message');
+                }
+            } else {
+                var newMsg = new Chat({
+                    msg: msg,
+                    nick: socket.nickName
+                });
+                await newMsg.save();
+
+                io.sockets.emit('new message', {
                 msg: data,
                 nick: socket.nickName
-            }); 
+            });
+            }            
         });
 
         socket.on('disconnect', data => {
             if(!socket.nickName) return;
-            nickNames.splice(nickNames.indexOf(socket.nickName), 1); //"splice" delete elem by index
+            delete users[socket.nickName];
             updateNickNames();
         });
 
         function updateNickNames(){
-            io.sockets.emit('userNames', nickNames);
+            io.sockets.emit('userNames', Object.keys(users));
         }
-
     });
 }
