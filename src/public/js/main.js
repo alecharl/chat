@@ -26,7 +26,7 @@ $(function (){
            } else {
                $nickError.html(`
                <div class = "alert alert-danger">
-                    That username already exists.
+                    That username already exists or is not Valid
                </div>
                `);
            }

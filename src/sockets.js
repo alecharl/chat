@@ -15,7 +15,7 @@ module.exports = function (io) {
         socket.on('new user', (data, cb) =>{
             console.log(data);
             
-            if (data in users) {
+            if (data in users ||!data) {
                 cb(false);
             } else {
                 cb(true);
