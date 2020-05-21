@@ -1,5 +1,5 @@
 //server socket connection
-const Chat = require('./models/Chat');
+const Chat = require('./models/chat');
 
 module.exports = function (io) {
    
