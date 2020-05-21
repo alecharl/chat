@@ -11,7 +11,7 @@ const server = http.createServer(app); // el servidor recibe express
 const io = socketio.listen(server); // socketio recibe un servidor
 
 // db connection
-mongoose.connect('mongodb://localhost/chat-database')
+mongoose.connect('mongodb://heroku_d8nwkgz9:3gln85ji2vrsonn8v5ihmb46j0@ds041613.mlab.com:41613/heroku_d8nwkgz9')
 .then(db => console.log('db is connected'))
 .catch(err => console.log (err));
 
