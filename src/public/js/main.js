@@ -56,17 +56,17 @@ $(function (){
     })
 
     socket.on("whisper", data => {
-        displayMsg(data);
+        displayMsg(data, "whisper");
     })
 
     socket.on('load old msgs', msgs => {
         for (let i = 0; i < msgs.length; i++){
-            displayMsg(msgs[i]);
+            displayMsg(msgs[i], "loaded-msgs");
         }
     })
 
-    function displayMsg(data){
-        $chat.append(`<p class="loaded-msgs"><b> ${data.nick}: </b> ${data.msg}</p>`);
+    function displayMsg(data, clase){
+        $chat.append(`<p class=${clase}><b> ${data.nick}: </b> ${data.msg}</p>`);
 
     }
 }); 

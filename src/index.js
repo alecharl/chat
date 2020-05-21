@@ -22,6 +22,6 @@ require('./sockets')(io); //importa la funcion del archivo sockets.js
 
 app.use(express.static(path.join(__dirname,'public')));// envia la carpeta static al navegador cada vez que un usuario entra
 
-server.listen(3000, () => {
+server.listen(process.env.PORT || 3000, () => {
     console.log('server on http://localhost:3000')
 });
