@@ -5,10 +5,10 @@ Desarrollo de un chat básico con Tecnologías JavaScript
 En este proyecto se ha utilizado NodeJs, Bootstrap, MongoDB y Jquery.
 
 ## repositorio
-Visita [Chat-Alecharl-GitHub] (https://github.com/alecharl/Chat-Alecharl) para ver el código del proyecto
+Visita <https://github.com/alecharl/Chat-Alecharl> para ver el código del proyecto
 
 ## Demo
-Visita [Chat-Alecharl-Heroku] (https://chat-alecharl.herokuapp.com/) para ver la aplicación funcionando.
+Visita [Chat-Alecharl-Heroku](https://chat-alecharl.herokuapp.com/) para ver la aplicación funcionando.
 
 ## Preview
 
