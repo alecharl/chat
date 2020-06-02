@@ -40,12 +40,13 @@ $(function (){
         //console.log($messageBox.val());
         socket.emit('send message', $messageBox.val(), data => {
             $chat.append(`<p class ="error">${data} </p>`)
-        }); // uses socket to send message
+        }); // use socket to send message
         $messageBox.val('');
     });
 
     socket.on('new message', data => {
-        $chat.append('<b>' + data.nick + '</b>: ' + data.msg + '<br/>');
+        $chat.append(`<p><b> ${data.nick}: </b> ${data.msg}</p>`);
+        scrollToBottom();
     });
 
     socket.on('userNames', data =>{
@@ -64,10 +65,14 @@ $(function (){
         for (let i = 0; i < msgs.length; i++){
             displayMsg(msgs[i], "loaded-msgs");
         }
+        scrollToBottom();
     })
 
     function displayMsg(data, clase){
-        $chat.append(`<p class=${clase}><b> ${data.nick}: </b> ${data.msg}</p>`);
+      $chat.append(`<p class=${clase}><b> ${data.nick}: </b> ${data.msg}</p>`);
 
     }
+    function scrollToBottom() {
+        $chat.scrollTop( $chat.prop('scrollHeight'));
+      }
 }); 

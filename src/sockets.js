@@ -9,7 +9,7 @@ module.exports = function (io) {
     io.on('connection', async socket => {
         console.log('new user connected');
         
-       let messages = await Chat.find({}).limit(6);
+       let messages = await Chat.find({}).limit(8);
        socket.emit('load old msgs', messages);
 
         socket.on('new user', (data, cb) =>{
